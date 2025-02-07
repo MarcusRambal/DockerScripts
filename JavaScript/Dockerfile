@@ -2,6 +2,6 @@ FROM node:18
 
 WORKDIR /JavaScript
 
-COPY JavaScript/ .
+COPY . .
 
 CMD ["node", "main.js"]
