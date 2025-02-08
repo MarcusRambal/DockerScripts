@@ -1,5 +1,6 @@
 import random
 import time
+import sys
 
 def generate_matrix(n):
     return [[random.randint(0, 9) for _ in range(n)] for _ in range(n)]
@@ -13,7 +14,7 @@ def multiply_matrices(A, B):
                 C[i][j] += A[i][k] * B[k][j]
     return C
 
-def benchmark(n = 300):
+def benchmark(n=300):
     A = generate_matrix(n)
     B = generate_matrix(n)
 
@@ -22,6 +23,13 @@ def benchmark(n = 300):
     end = time.time()
 
     elapsed_ms = (end - start) * 1000
-    print(f"Python: {elapsed_ms:3f} ms")
+    output = f"Python: {elapsed_ms:.3f} ms\n"
 
-benchmark()
+    with open("/outputs/python_output.txt", "w") as f:
+        f.write(output)
+        
+    print(output)
+
+if __name__ == "__main__":
+    n = int(sys.argv[1]) if len(sys.argv) > 1 else 300
+    benchmark(n)
