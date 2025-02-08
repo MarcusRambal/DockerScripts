@@ -1,35 +1,32 @@
-const fs = require('fs');
-const { performance } = require('perf_hooks');
-
-function esPrimo(n) {
-    if (n < 2) return false;
-    if (n === 2) return true;
-    if (n % 2 === 0) return false;
-    for (let i = 3; i * i <= n; i += 2) {
-        if (n % i === 0) return false;
-    }
-    return true;
+function generateMatrix(n) {
+    return Array.from({ length: n }, () =>
+        Array.from({ length: n }, () => Math.floor(Math.random() * 10))
+    );
 }
 
-function sumaPrimos(limite) {
-    let suma = 0;
-    let count = 0;
-    let num = 2;
+function multiplyMatrices(A, B) {
+    let n = A.length;
+    let C = Array.from({ length: n }, () => Array(n).fill(0));
 
-    while (count < limite) {
-        if (esPrimo(num)) {
-            suma += num;
-            count++;
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            for (let k = 0; k < n; k++) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
         }
-        num++;
     }
-
-    return suma;
+    return C;
 }
 
-const inicio = performance.now();
-const suma = sumaPrimos(10000);
-const fin = performance.now();
+function benchmark(n = 300) {
+    let A = generateMatrix(n);
+    let B = generateMatrix(n);
 
-fs.writeFileSync('suma_primos.txt', suma.toString());
-console.log(`${(fin - inicio).toFixed(2)} ms`);
+    let start = performance.now();
+    let C = multiplyMatrices(A, B);
+    let end = performance.now();
+
+    console.log(`JavaScript: ${(end - start).toFixed(3)} ms`);
+}
+
+benchmark();
