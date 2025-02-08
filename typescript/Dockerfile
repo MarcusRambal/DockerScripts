@@ -1,5 +1,7 @@
-FROM node:latest
+FROM node:18
 WORKDIR /app
-COPY . /app
-RUN npm install -g typescript
-CMD ["sh", "-c", "tsc main.ts && node main.js"]
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+CMD ["node", "dist/main.js"]
