@@ -24,7 +24,13 @@ def benchmark(n = 300)
   c = multiply_matrices(a, b)
   elapsed_ms = (Time.now - start) * 1000
 
-  puts "Ruby: %.3f ms" % elapsed_ms
+  output = "Ruby: %.3f ms\n" % elapsed_ms
+
+  File.open("/outputs/ruby_output.txt", "w") { |file| file.write(output) }
+
+  puts output
 end
 
-benchmark
+n = ARGV[0] ? ARGV[0].to_i : 300
+benchmark(n)
+
