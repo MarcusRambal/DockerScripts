@@ -1,6 +1,3 @@
-import { performance } from "perf_hooks";
-import * as fs from "fs";
-
 function generateMatrix(n: number): number[][] {
     return Array.from({ length: n }, () =>
         Array.from({ length: n }, () => Math.floor(Math.random() * 10))
@@ -29,10 +26,7 @@ function benchmark(n: number = 300): void {
     let C = multiplyMatrices(A, B);
     let end = performance.now();
 
-    let time = (end - start).toFixed(3);
-    console.log(`TypeScript: ${time} ms`);
-
-    fs.appendFileSync("/app/results.txt", `TypeScript: ${time} ms\n`);
+    console.log(`TypeScript: ${(end - start).toFixed(3)} ms`);
 }
 
 benchmark();
