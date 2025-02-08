@@ -1,6 +1,6 @@
-# include <stdio.h>
-# include <stdlib.h>
-# include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 void generate_matrix(int n, int matrix[n][n]) {
     for (int i = 0; i < n; i++) {
@@ -32,6 +32,15 @@ void benchmark(int n) {
     clock_t end = clock();
 
     double elapsed_ms = (double)(end - start) / CLOCKS_PER_SEC * 1000;
+
+    FILE *file = fopen("/outputs/c_output.txt", "w");
+    if (file == NULL) {
+        perror("Error al abrir el archivo de salida");
+        exit(1);
+    }
+    fprintf(file, "C: %.3f ms\n", elapsed_ms);
+    fclose(file);
+
     printf("C: %.3f ms\n", elapsed_ms);
 }
 
@@ -40,3 +49,4 @@ int main(int argc, char *argv[]) {
     benchmark(n);
     return 0;
 }
+
