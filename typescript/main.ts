@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 function generateMatrix(n: number): number[][] {
     return Array.from({ length: n }, () =>
         Array.from({ length: n }, () => Math.floor(Math.random() * 10))
@@ -26,8 +28,14 @@ function benchmark(n: number = 300): void {
     let C = multiplyMatrices(A, B);
     let end = performance.now();
 
-    console.log(`TypeScript: ${(end - start).toFixed(3)} ms`);
+    let output = `TypeScript: ${(end - start).toFixed(3)} ms\n`;
+
+    fs.writeFileSync("./outputs/typescript_output.txt", output);
+
+    console.log(output);
 }
 
-benchmark();
+const args = process.argv.slice(2);
+const n = args.length > 0 ? parseInt(args[0]) : 300;
+benchmark(n);
 
