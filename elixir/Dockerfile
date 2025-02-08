@@ -1,4 +1,4 @@
-FROM elixir:slim
+FROM elixir:latest
 WORKDIR /app
 COPY . .
-CMD ["elixir", "main.exs"]
+CMD ["sh", "-c", "elixir main.exs > /outputs/elixir_output.txt"]
