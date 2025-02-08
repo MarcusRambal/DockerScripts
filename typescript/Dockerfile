@@ -1,6 +1,5 @@
 FROM node:latest
 WORKDIR /app
-COPY . .
+COPY . /app
 RUN npm install -g typescript
-RUN tsc main.ts
-CMD ["node", "main.js"]
+CMD ["sh", "-c", "tsc main.ts && node main.js"]
