@@ -31,7 +31,7 @@ function benchmark(n = 300) {
     let elapsedMs = (end - start).toFixed(3);
     let output = `JavaScript: ${elapsedMs} ms\n`;
 
-    fs.writeFileSync('/outputs/js_output.txt', output);
+    fs.writeFileSync('/outputs/javascript_output.txt', output);
 
     console.log(output);
 }
