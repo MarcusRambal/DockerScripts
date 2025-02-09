@@ -1,67 +1,36 @@
-package main
+import random
+import time
+import sys
 
-import (
-	"fmt"
-	"math/rand"
-	"os"
-	"strconv"
-	"time"
-)
+def generate_matrix(n):
+    return [[random.randint(0, 9) for _ in range(n)] for _ in range(n)]
 
-func generateMatrix(n int) [][]int {
-	matrix := make([][]int, n)
-	for i := range matrix {
-		matrix[i] = make([]int, n)
-		for j := range matrix[i] {
-			matrix[i][j] = rand.Intn(10)
-		}
-	}
-	return matrix
-}
+def multiply_matrices(A, B):
+    n = len(A)
+    C = [[0] * n for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                C[i][j] += A[i][k] * B[k][j]
+    return C
 
-func multiplyMatrices(A, B [][]int) [][]int {
-	n := len(A)
-	C := make([][]int, n)
-	for i := range C {
-		C[i] = make([]int, n)
-	}
-	for i := 0; i < n; i++ {
-		for j := 0; j < n; j++ {
-			for k := 0; k < n; k++ {
-				C[i][j] += A[i][k] * B[k][j]
-			}
-		}
-	}
-	return C
-}
+def benchmark(n=300):
+    A = generate_matrix(n)
+    B = generate_matrix(n)
 
-func benchmark(n int) {
-	A := generateMatrix(n)
-	B := generateMatrix(n)
+    start = time.time()
+    C = multiply_matrices(A, B)
+    end = time.time()
 
-	start := time.Now()
-	_ = multiplyMatrices(A, B)
-	elapsed := time.Since(start).Milliseconds()
+    elapsed_ms = (end - start) * 1000
+    output = f"Python: {elapsed_ms:.3f} ms\n"
 
-	output := fmt.Sprintf("Go: %d ms\n", elapsed)
+    with open("/outputs/python_output.txt", "w") as f:
+        f.write(output)
+        
+    print(output)
 
-	file, err := os.Create("/outputs/go_output.txt")
-	if err != nil {
-		fmt.Println("Error creating file:", err)
-		return
-	}
-	defer file.Close()
-	file.WriteString(output)
+if __name__ == "__main__":
+    n = int(sys.argv[1]) if len(sys.argv) > 1 else 300
+    benchmark(n)
 
-	fmt.Print(output)
-}
-
-func main() {
-	n := 300
-	if len(os.Args) > 1 {
-		if parsed, err := strconv.Atoi(os.Args[1]); err == nil {
-			n = parsed
-		}
-	}
-	benchmark(n)
-}
