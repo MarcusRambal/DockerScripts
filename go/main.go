@@ -41,9 +41,10 @@ func benchmark(n int) {
 
 	start := time.Now()
 	_ = multiplyMatrices(A, B)
-	elapsed := time.Since(start).Milliseconds()
+	elapsed := float64(time.Since(start).Microseconds()) / 1000.0
+	
+	output := fmt.Sprintf("Go: %.3f ms\n", elapsed)
 
-	output := fmt.Sprintf("Go: %d ms\n", elapsed)
 
 	file, err := os.Create("/outputs/go_output.txt")
 	if err != nil {
